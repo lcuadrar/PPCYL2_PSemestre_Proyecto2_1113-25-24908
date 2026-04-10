@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import xml.etree.ElementTree as ET
+from matriz import MatrizDispersa
+
 app = Flask(__name__)
 
 # Aquí guardaremos todos los datos en memoria
@@ -7,6 +9,7 @@ usuarios = []
 cursos = []
 tutores = []
 estudiantes = []
+notas = {}
 
 @app.route('/')
 def index():
@@ -83,6 +86,45 @@ def cargar_xml():
         'tutores': len(tutores),
         'estudiantes': len(estudiantes)
     })
+@app.route('/notas', methods=['POST'])
+def cargar_notas():
+    archivo = request.data.decode('utf-8')
+    
+    try:
+        root = ET.fromstring(archivo)
+    except:
+        return jsonify({'mensaje': 'XML inválido'}), 400
 
+    codigo_curso = root.get('codigo')
+    
+    # Si no existe la matriz para ese curso, la creamos
+    if codigo_curso not in notas:
+        notas[codigo_curso] = MatrizDispersa()
+
+    # Cargar cada nota
+    for actividad in root.find('notas'):
+        nombre_actividad = actividad.get('nombre')
+        carnet = actividad.get('carnet')
+        valor = int(actividad.text)
+        notas[codigo_curso].insertar(nombre_actividad, carnet, valor)
+
+    return jsonify({'mensaje': 'Notas cargadas correctamente'})
+
+@app.route('/notas/<codigo_curso>/<carnet>', methods=['GET'])
+def obtener_notas(codigo_curso, carnet):
+    if codigo_curso not in notas:
+        return jsonify({'mensaje': 'Curso no encontrado'}), 404
+
+    matriz = notas[codigo_curso]
+    resultado = []
+
+    for nodo in matriz.nodos:
+        if nodo.columna == carnet:
+            resultado.append({
+                'actividad': nodo.fila,
+                'nota': nodo.valor
+            })
+
+    return jsonify({'notas': resultado})
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
