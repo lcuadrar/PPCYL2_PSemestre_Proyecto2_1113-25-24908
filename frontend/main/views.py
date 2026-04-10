@@ -111,3 +111,15 @@ def estudiante_panel(request):
     notas = respuesta.json().get('notas', [])
     
     return render(request, 'estudiante_panel.html', {'notas': notas, 'carnet': carnet})
+
+def reporte_notas(request):
+    if request.session.get('rol') != 'tutor':
+        return redirect('login')
+    
+    promedios = []
+    if request.method == 'POST':
+        codigo_curso = request.POST.get('codigo_curso')
+        respuesta = requests.get(f'{API_URL}/reporte/promedio/{codigo_curso}')
+        promedios = respuesta.json().get('promedios', [])
+
+    return render(request, 'reporte_notas.html', {'promedios': promedios})

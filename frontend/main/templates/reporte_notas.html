@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Reporte de Notas</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Reporte Promedio de Notas</h2>
+    <a href="/tutor_panel/">Volver</a>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="codigo_curso" placeholder="Código del curso (ej: 770)">
+        <button type="submit">Seleccionar</button>
+    </form>
+
+    {% if promedios %}
+    <canvas id="grafica" width="400" height="200"></canvas>
+    <script>
+        const labels = [{% for p in promedios %}"{{ p.actividad }}",{% endfor %}];
+        const datos = [{% for p in promedios %}{{ p.promedio }},{% endfor %}];
+
+        new Chart(document.getElementById('grafica'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Promedio de notas',
+                    data: datos,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>

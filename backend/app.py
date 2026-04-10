@@ -209,5 +209,30 @@ def cargar_horarios():
 
     return jsonify({'horarios': horarios_cargados})
 
+@app.route('/reporte/promedio/<codigo_curso>', methods=['GET'])
+def reporte_promedio(codigo_curso):
+    if codigo_curso not in notas:
+        return jsonify({'mensaje': 'Curso no encontrado'}), 404
+
+    matriz = notas[codigo_curso]
+    
+    # Agrupar notas por actividad
+    actividades = {}
+    for nodo in matriz.nodos:
+        if nodo.fila not in actividades:
+            actividades[nodo.fila] = []
+        actividades[nodo.fila].append(nodo.valor)
+
+    # Calcular promedio por actividad
+    promedios = []
+    for actividad, valores in actividades.items():
+        promedio = sum(valores) / len(valores)
+        promedios.append({
+            'actividad': actividad,
+            'promedio': round(promedio, 2)
+        })
+
+    return jsonify({'promedios': promedios})
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
