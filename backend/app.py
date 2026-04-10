@@ -45,6 +45,7 @@ def cargar_xml():
     cursos.clear()
     tutores.clear()
     estudiantes.clear()
+    usuarios.clear()
 
     # Cargar cursos
     for curso in root.find('cursos'):
@@ -81,12 +82,58 @@ def cargar_xml():
             'rol': 'estudiante'
         })
 
-    return jsonify({
-        'mensaje': 'Datos cargados correctamente',
-        'cursos': len(cursos),
-        'tutores': len(tutores),
-        'estudiantes': len(estudiantes)
-    })
+    # Contar asignaciones
+    asignaciones_tutores_total = 0
+    asignaciones_tutores_correctas = 0
+    asignaciones_tutores_incorrectas = 0
+
+    for tutor_curso in root.find('asignaciones').find('c_tutores'):
+        asignaciones_tutores_total += 1
+        codigo = tutor_curso.get('codigo')
+        registro = tutor_curso.text
+        curso_existe = any(c['codigo'] == codigo for c in cursos)
+        tutor_existe = any(t['usuario'] == registro for t in tutores)
+        if curso_existe and tutor_existe:
+            asignaciones_tutores_correctas += 1
+        else:
+            asignaciones_tutores_incorrectas += 1
+
+    asignaciones_estudiantes_total = 0
+    asignaciones_estudiantes_correctas = 0
+    asignaciones_estudiantes_incorrectas = 0
+
+    for est_curso in root.find('asignaciones').find('c_estudiante'):
+        asignaciones_estudiantes_total += 1
+        codigo = est_curso.get('codigo')
+        carnet = est_curso.text
+        curso_existe = any(c['codigo'] == codigo for c in cursos)
+        estudiante_existe = any(e['usuario'] == carnet for e in estudiantes)
+        if curso_existe and estudiante_existe:
+            asignaciones_estudiantes_correctas += 1
+        else:
+            asignaciones_estudiantes_incorrectas += 1
+
+    # Generar XML de salida
+    xml_salida = f"""<?xml version="1.0"?>
+<configuraciones_aplicadas>
+    <tutores_cargados>{len(tutores)}</tutores_cargados>
+    <estudiantes_cargados>{len(estudiantes)}</estudiantes_cargados>
+    <asignaciones>
+        <tutores>
+            <total>{asignaciones_tutores_total}</total>
+            <correcto>{asignaciones_tutores_correctas}</correcto>
+            <incorrecto>{asignaciones_tutores_incorrectas}</incorrecto>
+        </tutores>
+        <estudiantes>
+            <total>{asignaciones_estudiantes_total}</total>
+            <correcto>{asignaciones_estudiantes_correctas}</correcto>
+            <incorrecto>{asignaciones_estudiantes_incorrectas}</incorrecto>
+        </estudiantes>
+    </asignaciones>
+</configuraciones_aplicadas>"""
+
+    return xml_salida, 200, {'Content-Type': 'text/xml'}
+
 @app.route('/notas', methods=['POST'])
 def cargar_notas():
     archivo = request.data.decode('utf-8')
