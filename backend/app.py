@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import xml.etree.ElementTree as ET
 from matriz import MatrizDispersa
+import re
 
 app = Flask(__name__)
 
@@ -126,5 +127,40 @@ def obtener_notas(codigo_curso, carnet):
             })
 
     return jsonify({'notas': resultado})
+
+@app.route('/usuarios', methods=['GET'])
+def ver_usuarios():
+    return jsonify({'usuarios': usuarios})
+
+@app.route('/horarios', methods=['POST'])
+def cargar_horarios():
+    archivo = request.data.decode('utf-8')
+    
+    try:
+        root = ET.fromstring(archivo)
+    except:
+        return jsonify({'mensaje': 'XML inválido'}), 400
+
+    horarios_cargados = []
+
+    for curso in root.findall('curso'):
+        codigo = curso.get('codigo')
+        texto = curso.text
+
+        # Extraer horario con expresión regular
+        patron = r'HorarioI:\s*(\d{2}:\d{2})\s*HorarioF:\s*(\d{2}:\d{2})'
+        resultado = re.search(patron, texto)
+
+        if resultado:
+            horario_inicio = resultado.group(1)
+            horario_fin = resultado.group(2)
+            horarios_cargados.append({
+                'codigo': codigo,
+                'inicio': horario_inicio,
+                'fin': horario_fin
+            })
+
+    return jsonify({'horarios': horarios_cargados})
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
