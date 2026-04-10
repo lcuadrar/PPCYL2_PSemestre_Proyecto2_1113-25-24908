@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Login</title>
+</head>
+<body>
+    <h2>LOGIN</h2>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="usuario" placeholder="Usuario"><br><br>
+        <input type="password" name="contrasenia" placeholder="Contraseña"><br><br>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+</body>
+</html>
