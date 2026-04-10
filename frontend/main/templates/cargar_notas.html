@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Cargar Notas</title>
+</head>
+<body>
+    <h2>Ingresar Notas</h2>
+    <a href="/tutor_panel/">Volver</a>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="archivo" accept=".xml">
+        <button type="submit">Cargar Notas</button>
+    </form>
+
+    {% if mensaje %}
+        <p>{{ mensaje }}</p>
+    {% endif %}
+</body>
+</html>

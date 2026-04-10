@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Horarios</title>
+</head>
+<body>
+    <h2>Horarios</h2>
+    <a href="/tutor_panel/">Volver</a>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="archivo" accept=".xml">
+        <button type="submit">Cargar Horarios</button>
+    </form>
+
+    {% if horarios %}
+    <table border="1">
+        <tr>
+            <th>Curso</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+        </tr>
+        {% for h in horarios %}
+        <tr>
+            <td>{{ h.codigo }}</td>
+            <td>{{ h.inicio }}</td>
+            <td>{{ h.fin }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>

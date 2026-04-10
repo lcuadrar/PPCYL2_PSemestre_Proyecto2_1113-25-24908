@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Mis Notas</title>
+</head>
+<body>
+    <h2>Mis Notas</h2>
+    <a href="/">Cerrar Sesión</a>
+
+    <table border="1">
+        <tr>
+            <th>Actividad</th>
+            <th>Nota</th>
+        </tr>
+        {% for n in notas %}
+        <tr>
+            <td>{{ n.actividad }}</td>
+            <td>{{ n.nota }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -6,6 +6,10 @@
 <body>
     {% if rol == 'administrador' %}
         <script>window.location.href = '/admin_panel/';</script>
+    {% elif rol == 'tutor' %}
+        <script>window.location.href = '/tutor_panel/';</script>
+    {% elif rol == 'estudiante' %}
+        <script>window.location.href = '/estudiante_panel/';</script>
     {% endif %}
 </body>
 </html>

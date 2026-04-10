@@ -60,3 +60,54 @@ def ver_usuarios(request):
     usuarios = respuesta.json().get('usuarios', [])
     
     return render(request, 'ver_usuarios.html', {'usuarios': usuarios})
+
+def tutor_panel(request):
+    if request.session.get('rol') != 'tutor':
+        return redirect('login')
+    return render(request, 'tutor_panel.html')
+
+def cargar_horarios(request):
+    if request.session.get('rol') != 'tutor':
+        return redirect('login')
+    
+    horarios = None
+    if request.method == 'POST':
+        archivo = request.FILES.get('archivo')
+        if archivo:
+            contenido = archivo.read()
+            respuesta = requests.post(
+                f'{API_URL}/horarios',
+                data=contenido,
+                headers={'Content-Type': 'text/xml'}
+            )
+            horarios = respuesta.json().get('horarios', [])
+
+    return render(request, 'cargar_horarios.html', {'horarios': horarios})
+
+def cargar_notas(request):
+    if request.session.get('rol') != 'tutor':
+        return redirect('login')
+    
+    mensaje = None
+    if request.method == 'POST':
+        archivo = request.FILES.get('archivo')
+        if archivo:
+            contenido = archivo.read()
+            respuesta = requests.post(
+                f'{API_URL}/notas',
+                data=contenido,
+                headers={'Content-Type': 'text/xml'}
+            )
+            mensaje = respuesta.json().get('mensaje')
+
+    return render(request, 'cargar_notas.html', {'mensaje': mensaje})
+
+def estudiante_panel(request):
+    if request.session.get('rol') != 'estudiante':
+        return redirect('login')
+    
+    carnet = request.session.get('usuario')
+    respuesta = requests.get(f'{API_URL}/notas/770/{carnet}')
+    notas = respuesta.json().get('notas', [])
+    
+    return render(request, 'estudiante_panel.html', {'notas': notas, 'carnet': carnet})
