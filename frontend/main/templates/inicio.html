@@ -4,7 +4,8 @@
     <title>AcadNet - Inicio</title>
 </head>
 <body>
-    <h2>Bienvenido, {{ rol }}</h2>
-    <a href="/">Cerrar Sesión</a>
+    {% if rol == 'administrador' %}
+        <script>window.location.href = '/admin_panel/';</script>
+    {% endif %}
 </body>
 </html>

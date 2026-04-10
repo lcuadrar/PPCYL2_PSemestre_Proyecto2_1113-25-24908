@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Ver Usuarios</title>
+</head>
+<body>
+    <h2>Revisión de Usuarios</h2>
+    <a href="/admin_panel/">Volver</a>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+        </tr>
+        {% for u in usuarios %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ u.usuario }}</td>
+            <td>{{ u.rol }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

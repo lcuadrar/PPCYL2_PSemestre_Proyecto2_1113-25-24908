@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AcadNet - Cargar XML</title>
+</head>
+<body>
+    <h2>Carga de Archivos</h2>
+    <a href="/admin_panel/">Volver</a>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="archivo" accept=".xml">
+        <button type="submit">Procesar Datos</button>
+    </form>
+
+    {% if salida %}
+        <h3>Salida:</h3>
+        <pre>{{ salida }}</pre>
+    {% endif %}
+</body>
+</html>

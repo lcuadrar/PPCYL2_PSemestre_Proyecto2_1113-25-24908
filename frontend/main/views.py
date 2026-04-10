@@ -28,3 +28,35 @@ def login(request):
 def inicio(request):
     rol = request.session.get('rol')
     return render(request, 'inicio.html', {'rol': rol})
+
+def admin_panel(request):
+    if request.session.get('rol') != 'administrador':
+        return redirect('login')
+    return render(request, 'admin_panel.html')
+
+def cargar_xml(request):
+    if request.session.get('rol') != 'administrador':
+        return redirect('login')
+    
+    salida = None
+    if request.method == 'POST':
+        archivo = request.FILES.get('archivo')
+        if archivo:
+            contenido = archivo.read()
+            respuesta = requests.post(
+                f'{API_URL}/cargar',
+                data=contenido,
+                headers={'Content-Type': 'text/xml'}
+            )
+            salida = respuesta.text
+
+    return render(request, 'cargar_xml.html', {'salida': salida})
+
+def ver_usuarios(request):
+    if request.session.get('rol') != 'administrador':
+        return redirect('login')
+    
+    respuesta = requests.get(f'{API_URL}/usuarios')
+    usuarios = respuesta.json().get('usuarios', [])
+    
+    return render(request, 'ver_usuarios.html', {'usuarios': usuarios})
