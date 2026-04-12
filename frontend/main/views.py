@@ -8,7 +8,6 @@ def login(request):
         usuario = request.POST.get('usuario')
         contrasenia = request.POST.get('contrasenia')
 
-        # Le preguntamos a la API si el usuario existe
         respuesta = requests.post(f'{API_URL}/login', json={
             'usuario': usuario,
             'contrasenia': contrasenia
@@ -16,9 +15,9 @@ def login(request):
 
         if respuesta.status_code == 200:
             datos = respuesta.json()
-            # Guardamos el usuario y rol en la sesión
             request.session['usuario'] = usuario
             request.session['rol'] = datos['rol']
+            request.session['nombre'] = datos['nombre']
             return redirect('inicio')
         else:
             return render(request, 'login.html', {'error': 'Usuario o contraseña incorrectos'})
@@ -27,7 +26,8 @@ def login(request):
 
 def inicio(request):
     rol = request.session.get('rol')
-    return render(request, 'inicio.html', {'rol': rol})
+    nombre = request.session.get('nombre')
+    return render(request, 'inicio.html', {'rol': rol, 'nombre': nombre})
 
 def admin_panel(request):
     if request.session.get('rol') != 'administrador':

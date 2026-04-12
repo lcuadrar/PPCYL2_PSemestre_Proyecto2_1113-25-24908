@@ -23,12 +23,12 @@ def login():
 
     # Verificar si es el administrador
     if usuario == 'AdminPPCYL2' and contrasenia == 'AdminPPCYL2771':
-        return jsonify({'mensaje': 'Login exitoso', 'rol': 'administrador'})
+        return jsonify({'mensaje': 'Login exitoso', 'rol': 'administrador', 'nombre': 'Administrador'})
 
     # Buscar en la lista de usuarios
     for u in usuarios:
         if u['usuario'] == usuario and u['contrasenia'] == contrasenia:
-            return jsonify({'mensaje': 'Login exitoso', 'rol': u['rol']})
+            return jsonify({'mensaje': 'Login exitoso', 'rol': u['rol'], 'nombre': u.get('nombre', usuario)})
 
     return jsonify({'mensaje': 'Usuario o contraseña incorrectos'}), 401
 
