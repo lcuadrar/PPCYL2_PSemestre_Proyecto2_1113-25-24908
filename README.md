@@ -89,18 +89,20 @@ http://127.0.0.1:8000
 
 ## 📁 Estructura del proyecto
 
-PPCYL2-AcadNet/
-├── backend/
-│   ├── app.py          # API Flask
-│   ├── matriz.py       # Matriz dispersa con POO
-│   └── *.xml           # Archivos de prueba
-├── frontend/
-│   ├── acadnet/        # Configuración Django
-│   └── main/           # Aplicación principal
-│       ├── views.py    # Vistas
-│       ├── urls.py     # Rutas
-│       └── templates/  # Pantallas HTML
-└── README.md
+## 📁 Estructura del proyecto
+
+    PPCYL2-AcadNet/
+    ├── backend/
+    │   ├── app.py          
+    │   ├── matriz.py       
+    │   └── *.xml           
+    ├── frontend/
+    │   ├── acadnet/        
+    │   └── main/           
+    │       ├── views.py    
+    │       ├── urls.py     
+    │       └── templates/  
+    └── README.md
 ---
 
 ## 🧩 Conceptos implementados
