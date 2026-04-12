@@ -1,15 +1,111 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>AcadNet - Administrador</title>
+    <link href="https://fonts.googleapis.com/css2?family=Changa+One&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #ffffff;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .navbar {
+            background: #FF6B2B;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-text {
+            color: white;
+            font-size: 24px;
+        }
+        .logo-acad { font-family: 'Changa One', sans-serif; }
+        .logo-net { font-family: 'Pacifico', cursive; }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 15px;
+        }
+        .nav-links a:hover { text-decoration: underline; }
+        .container {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 60px);
+            text-align: center;
+        }
+        h2 {
+            color: #FF6B2B;
+            font-family: 'Changa One', sans-serif;
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .bienvenida {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        .cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid #FF6B2B;
+            border-radius: 15px;
+            padding: 100px 80px;
+            width: 450px;
+            text-align: center;
+            text-decoration: none;
+            color: #FF6B2B;
+            font-size: 22px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+.card-icon { font-size: 60px; margin-bottom: 15px; }
+        .card:hover {
+            background: #FF6B2B;
+            color: white;
+        }
+        .card-icon { font-size: 80px; margin-bottom: 20px; }
+
+.card { font-size: 26px; }
+    </style>
 </head>
 <body>
-    <h2>Panel de Administrador</h2>
-    <p>👋 Bienvenido, <strong>{{ request.session.nombre }}</strong></p>
-    <nav>
-        <a href="/cargar_xml/">Cargar Archivo XML</a> |
-        <a href="/ver_usuarios/">Ver Usuarios</a> |
-        <a href="/cerrar_sesion/">Cerrar Sesión</a>
-    </nav>
+    <div class="navbar">
+        <span class="logo-text">
+            <span class="logo-acad">Acad</span><span class="logo-net">Net</span>
+        </span>
+        <div class="nav-links">
+            <a href="/cerrar_sesion/">Cerrar Sesión</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Panel de Administrador</h2>
+        <p class="bienvenida">👋 Bienvenido, <strong>{{ request.session.nombre }}</strong></p>
+
+        <div class="cards">
+            <a href="/cargar_xml/" class="card">
+                <div class="card-icon">📂</div>
+                Cargar XML
+            </a>
+            <a href="/ver_usuarios/" class="card">
+                <div class="card-icon">👥</div>
+                Ver Usuarios
+            </a>
+        </div>
+    </div>
 </body>
 </html>
