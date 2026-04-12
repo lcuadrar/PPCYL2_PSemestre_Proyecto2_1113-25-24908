@@ -117,3 +117,70 @@ http://127.0.0.1:8000
 ## 📄 Documentación
 
 La documentación completa del proyecto se encuentra en la carpeta `/docs` del repositorio.
+
+## 📊 Diagrama de Clases
+
+```mermaid
+classDiagram
+    class Usuario {
+        +String usuario
+        +String contrasenia
+        +String nombre
+        +String rol
+        +login()
+    }
+
+    class Estudiante {
+        +String carnet
+        +verNotas()
+    }
+
+    class Tutor {
+        +String registro_personal
+        +cargarHorarios()
+        +cargarNotas()
+        +verReportes()
+    }
+
+    class Administrador {
+        +cargarXML()
+        +verUsuarios()
+    }
+
+    class Curso {
+        +String codigo
+        +String nombre
+    }
+
+    class Actividad {
+        +String nombre
+        +int nota
+    }
+
+    class Horario {
+        +String hora_inicio
+        +String hora_fin
+    }
+
+    class MatrizDispersa {
+        +list nodos
+        +insertar()
+        +obtener()
+    }
+
+    class Nodo {
+        +String fila
+        +String columna
+        +int valor
+        +Nodo siguiente
+    }
+
+    Usuario <|-- Estudiante
+    Usuario <|-- Tutor
+    Usuario <|-- Administrador
+    MatrizDispersa *-- Nodo
+    Tutor --> Curso
+    Estudiante --> Curso
+    Curso o-- Actividad
+    Tutor --> Horario
+```
