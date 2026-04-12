@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 import xml.etree.ElementTree as ET
 from matriz import MatrizDispersa
 import re
+from graphviz import Digraph
+import os
+os.environ["PATH"] += os.pathsep + "/opt/homebrew/bin"
 
 app = Flask(__name__)
 
@@ -243,6 +246,40 @@ def cursos_estudiante(carnet):
             'nombre': asignacion['nombre']
         })
     return jsonify({'cursos': cursos_del_estudiante})
+
+@app.route('/reporte/grafo/<codigo_curso>', methods=['GET'])
+def reporte_grafo(codigo_curso):
+    if codigo_curso not in notas:
+        return jsonify({'mensaje': 'Curso no encontrado'}), 404
+
+    matriz = notas[codigo_curso]
+    
+    dot = Digraph(comment='Resumen de Notas')
+    dot.attr(rankdir='LR')
+    
+    # Nodo principal
+    dot.node('RESUMEN', 'RESUMEN NOTAS', shape='rectangle', style='filled', fillcolor='lightyellow')
+    
+    # Agregar nodos y conexiones
+    actividades_vistas = []
+    carnets_vistos = []
+    
+    for nodo in matriz.nodos:
+        if nodo.fila not in actividades_vistas:
+            dot.node(nodo.fila, nodo.fila, shape='rectangle', style='filled', fillcolor='orange')
+            dot.edge('RESUMEN', nodo.fila)
+            actividades_vistas.append(nodo.fila)
+        
+        if nodo.columna not in carnets_vistos:
+            dot.node(nodo.columna, nodo.columna, shape='rectangle', style='filled', fillcolor='lightgreen')
+            carnets_vistos.append(nodo.columna)
+        
+        dot.edge(nodo.fila, nodo.columna, label=str(nodo.valor))
+    
+    # Guardar imagen
+    dot.render('reporte_grafo', format='png', cleanup=True)
+    
+    return jsonify({'mensaje': 'Grafo generado correctamente'})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
