@@ -107,10 +107,23 @@ def estudiante_panel(request):
         return redirect('login')
     
     carnet = request.session.get('usuario')
-    respuesta = requests.get(f'{API_URL}/notas/770/{carnet}')
-    notas = respuesta.json().get('notas', [])
     
-    return render(request, 'estudiante_panel.html', {'notas': notas, 'carnet': carnet})
+    # Obtener cursos del estudiante
+    respuesta_cursos = requests.get(f'{API_URL}/cursos/{carnet}')
+    cursos = respuesta_cursos.json().get('cursos', [])
+    
+    # Obtener notas si se seleccionó un curso
+    notas = []
+    curso_seleccionado = request.GET.get('curso')
+    if curso_seleccionado:
+        respuesta_notas = requests.get(f'{API_URL}/notas/{curso_seleccionado}/{carnet}')
+        notas = respuesta_notas.json().get('notas', [])
+
+    return render(request, 'estudiante_panel.html', {
+        'notas': notas,
+        'cursos': cursos,
+        'curso_seleccionado': curso_seleccionado
+    })
 
 def reporte_notas(request):
     if request.session.get('rol') != 'tutor':

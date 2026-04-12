@@ -7,6 +7,19 @@
     <h2>Mis Notas</h2>
     <a href="/cerrar_sesion/">Cerrar Sesión</a>
 
+    <form method="GET">
+        <select name="curso">
+            <option value="">Seleccionar curso</option>
+            {% for c in cursos %}
+            <option value="{{ c.codigo }}" {% if curso_seleccionado == c.codigo %}selected{% endif %}>
+                {{ c.codigo }} - {{ c.nombre }}
+            </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Consultar</button>
+    </form>
+
+    {% if notas %}
     <table border="1">
         <tr>
             <th>Actividad</th>
@@ -19,5 +32,8 @@
         </tr>
         {% endfor %}
     </table>
+    {% elif curso_seleccionado %}
+        <p>No hay notas cargadas para este curso todavía.</p>
+    {% endif %}
 </body>
 </html>

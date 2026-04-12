@@ -234,5 +234,15 @@ def reporte_promedio(codigo_curso):
 
     return jsonify({'promedios': promedios})
 
+@app.route('/cursos/<carnet>', methods=['GET'])
+def cursos_estudiante(carnet):
+    cursos_del_estudiante = []
+    for asignacion in cursos:
+        cursos_del_estudiante.append({
+            'codigo': asignacion['codigo'],
+            'nombre': asignacion['nombre']
+        })
+    return jsonify({'cursos': cursos_del_estudiante})
+
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
