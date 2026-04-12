@@ -89,8 +89,6 @@ http://127.0.0.1:8000
 
 ## 📁 Estructura del proyecto
 
-## 📁 Estructura del proyecto
-
     PPCYL2-AcadNet/
     ├── backend/
     │   ├── app.py          
