@@ -123,3 +123,7 @@ def reporte_notas(request):
         promedios = respuesta.json().get('promedios', [])
 
     return render(request, 'reporte_notas.html', {'promedios': promedios})
+
+def cerrar_sesion(request):
+    request.session.flush()
+    return redirect('login')

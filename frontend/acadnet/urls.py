@@ -12,4 +12,5 @@ urlpatterns = [
     path('cargar_notas/', views.cargar_notas, name='cargar_notas'),
     path('estudiante_panel/', views.estudiante_panel, name='estudiante_panel'),
     path('reporte_notas/', views.reporte_notas, name='reporte_notas'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
 ]
