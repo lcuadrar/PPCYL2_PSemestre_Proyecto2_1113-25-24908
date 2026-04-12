@@ -1,33 +1,114 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>AcadNet - Horarios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Changa+One&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #ffffff; font-family: Arial, sans-serif; min-height: 100vh; }
+        .navbar {
+            background: #FF6B2B;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-text { color: white; font-size: 24px; }
+        .logo-acad { font-family: 'Changa One', sans-serif; }
+        .logo-net { font-family: 'Pacifico', cursive; }
+        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-size: 15px; }
+        .container {
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        h2 {
+            color: #FF6B2B;
+            font-family: 'Changa One', sans-serif;
+            font-size: 48px;
+            margin-bottom: 30px;
+        }
+        .upload-box {
+            border: 2px dashed #FF6B2B;
+            border-radius: 15px;
+            padding: 40px;
+            width: 600px;
+            margin-bottom: 30px;
+        }
+        .upload-icon { font-size: 60px; margin-bottom: 15px; }
+        .btn {
+            background: #FF6B2B;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn:hover { background: #e55a1f; }
+        table {
+            border-collapse: collapse;
+            width: 700px;
+            margin-top: 20px;
+        }
+        th {
+            background: #FF6B2B;
+            color: white;
+            padding: 20px;
+            font-size: 20px;
+        }
+        td {
+            padding: 18px;
+            border-bottom: 1px solid #eee;
+            font-size: 18px;
+            color: #333;
+        }
+        tr:hover td { background: #fff5f0; }
+    </style>
 </head>
 <body>
-    <h2>Horarios</h2>
-    <a href="/tutor_panel/">Volver</a>
+    <div class="navbar">
+        <span class="logo-text">
+            <span class="logo-acad">Acad</span><span class="logo-net">Net</span>
+        </span>
+        <div class="nav-links">
+            <a href="/tutor_panel/">Volver</a>
+            <a href="/cerrar_sesion/">Cerrar Sesión</a>
+        </div>
+    </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="archivo" accept=".xml">
-        <button type="submit">Cargar Horarios</button>
-    </form>
+    <div class="container">
+        <h2>Horarios</h2>
 
-    {% if horarios %}
-    <table border="1">
-        <tr>
-            <th>Curso</th>
-            <th>Hora Inicio</th>
-            <th>Hora Fin</th>
-        </tr>
-        {% for h in horarios %}
-        <tr>
-            <td>{{ h.codigo }}</td>
-            <td>{{ h.inicio }}</td>
-            <td>{{ h.fin }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% endif %}
+        <div class="upload-box">
+            <div class="upload-icon">📅</div>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="archivo" accept=".xml" style="margin-bottom:15px;"><br>
+                <button type="submit" class="btn">Cargar Horarios</button>
+            </form>
+        </div>
+
+        {% if horarios %}
+        <table>
+            <tr>
+                <th>Curso</th>
+                <th>Hora Inicio</th>
+                <th>Hora Fin</th>
+            </tr>
+            {% for h in horarios %}
+            <tr>
+                <td>{{ h.codigo }}</td>
+                <td>{{ h.inicio }}</td>
+                <td>{{ h.fin }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endif %}
+    </div>
 </body>
 </html>

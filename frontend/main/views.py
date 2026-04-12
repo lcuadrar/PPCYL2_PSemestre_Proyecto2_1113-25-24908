@@ -129,6 +129,23 @@ def reporte_notas(request):
     if request.session.get('rol') != 'tutor':
         return redirect('login')
     
+    # Obtener cursos disponibles
+    respuesta_cursos = requests.get(f'{API_URL}/cursos/{request.session.get("usuario")}')
+    cursos = respuesta_cursos.json().get('cursos', [])
+    
+    promedios = []
+    curso_seleccionado = None
+    if request.method == 'POST':
+        curso_seleccionado = request.POST.get('codigo_curso')
+        respuesta = requests.get(f'{API_URL}/reporte/promedio/{curso_seleccionado}')
+        promedios = respuesta.json().get('promedios', [])
+
+    return render(request, 'reporte_notas.html', {
+        'promedios': promedios,
+        'cursos': cursos,
+        'curso_seleccionado': curso_seleccionado
+    })
+    
     promedios = []
     if request.method == 'POST':
         codigo_curso = request.POST.get('codigo_curso')
