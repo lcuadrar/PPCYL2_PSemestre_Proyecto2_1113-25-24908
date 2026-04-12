@@ -140,3 +140,6 @@ def reporte_notas(request):
 def cerrar_sesion(request):
     request.session.flush()
     return redirect('login')
+
+def error(request, mensaje='Ha ocurrido un error inesperado'):
+    return render(request, 'error.html', {'mensaje': mensaje})
