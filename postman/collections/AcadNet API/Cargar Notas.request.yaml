@@ -1,0 +1,16 @@
+$kind: http-request
+url: http://127.0.0.1:5000/notas
+method: POST
+body:
+  type: xml
+  content: |-
+    <?xml version="1.0"?>
+    <curso codigo="770">Matematica
+        <notas>
+            <actividad nombre="Tarea1" carnet="1234">90</actividad>
+            <actividad nombre="Tarea1" carnet="5678">70</actividad>
+            <actividad nombre="Tarea2" carnet="1234">80</actividad>
+            <actividad nombre="Tarea2" carnet="5678">60</actividad>
+        </notas>
+    </curso>
+order: 4490568212447225

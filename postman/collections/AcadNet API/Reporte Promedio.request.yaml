@@ -1,0 +1,5 @@
+$kind: http-request
+name: Reporte Promedio
+url: http://127.0.0.1:5000/reporte/promedio/770
+method: GET
+order: 4495915606445164

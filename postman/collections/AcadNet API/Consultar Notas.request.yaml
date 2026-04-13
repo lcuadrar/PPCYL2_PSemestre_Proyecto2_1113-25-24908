@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://127.0.0.1:5000/notas/770/1234
+method: GET
+order: 4494710386553520

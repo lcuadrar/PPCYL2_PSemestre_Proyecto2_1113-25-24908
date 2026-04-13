@@ -1,0 +1,12 @@
+$kind: http-request
+name: Login
+url: http://127.0.0.1:5000/login
+method: POST
+body:
+  type: json
+  content: |-
+    {
+        "usuario": "AdminPPCYL2",
+        "contrasenia": "AdminPPCYL2771"
+    }
+order: 1776117775302
