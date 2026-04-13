@@ -1,5 +1,8 @@
 $kind: http-request
 name: Reporte Promedio
+description: Endpoint para generar el reporte de promedio de notas por actividad
+  en un curso específico. Recibe el código del curso como parámetro en la URL y
+  devuelve el promedio de notas de cada actividad.
 url: http://127.0.0.1:5000/reporte/promedio/770
 method: GET
 order: 4495915606445164

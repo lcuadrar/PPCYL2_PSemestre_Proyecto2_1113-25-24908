@@ -1,5 +1,8 @@
 $kind: http-request
 name: Ver Usuarios
+description: Endpoint para que el administrador consulte todos los usuarios
+  cargados en el sistema. Devuelve la lista completa de tutores y estudiantes
+  con su usuario y rol.
 url: http://127.0.0.1:5000/usuarios
 method: GET
-order: 4244134591479097
+order: 4493506901298604

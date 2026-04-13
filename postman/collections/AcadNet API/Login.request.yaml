@@ -1,5 +1,13 @@
 $kind: http-request
 name: Login
+description: >-
+  Endpoint para autenticar usuarios en el sistema AcadNet.  
+
+  Recibe usuario y contraseña, y devuelve el rol del usuario si las credenciales
+  son correctas.
+
+
+  Roles disponibles: administrador, tutor, estudiante.
 url: http://127.0.0.1:5000/login
 method: POST
 body:
